@@ -60,7 +60,8 @@ h6,
 	cursor:pointer;
 }
 .option-text {
-	
+	padding: 30%;
+	margin: 19%;
 }
 @media screen and (max-width: 46.5em)  {
 	.big-box h2
