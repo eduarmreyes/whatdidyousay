@@ -7,14 +7,14 @@ var aStatBoxes = [
 	{
 		bg_color: "aqua",
 		stat_number: "150",
-		name: "New Orders",
-		icon: "ion ion-bag",
+		name: "Users playing",
+		icon: "ion ion-game-controller-a",
 		url: "#"
 	},
 	{
 		bg_color: "green",
 		stat_number: "85%",
-		name: "Bounce Rate",
+		name: "Questions answered",
 		icon: "ion ion-stats-bars",
 		url: "#"
 	},

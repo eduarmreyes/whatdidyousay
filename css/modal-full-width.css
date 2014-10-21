@@ -82,12 +82,29 @@ h6,
 	position: relative;
 	height: 40%;
 }
+.options {
+	height: 98%;
+	position: absolute;	
+}
+.options > p {
+	margin: 0;
+}
+.first-option {
+
+}
+.second-option {
+	left: 50%;
+}
 .option-text {
 	cursor: pointer;
-	padding-top: 25%;
+	min-height: 100%;
 }
 .option-text > span {
-	margin: 40%;
+	position: absolute;
+	top: 50%;
+}
+.modal-body-full-height {
+	min-height: 100%;
 }
 @media screen and (max-width: 46.5em)  {
 	.big-box h2
