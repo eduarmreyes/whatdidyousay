@@ -59,9 +59,35 @@ h6,
 	text-transform: uppercase;
 	cursor:pointer;
 }
+.rounded {
+	border-radius: 100%;
+	border: #FFFCE3 3px solid;
+}
+.circular-animation {
+	-webkit-animation: enlargeShadows 1.5s ease-out infinite;
+	animation: enlargeShadows 1.5s ease-out infinite;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+}
+.game {
+	font-size: 1.5em;
+}
+.question {
+	background: black;
+	border-radius: 1em;
+	text-align: center;
+}
+.question-wrapper {
+	display: inline-table;
+	position: relative;
+	height: 40%;
+}
 .option-text {
-	padding: 30%;
-	margin: 19%;
+	cursor: pointer;
+	padding-top: 25%;
+}
+.option-text > span {
+	margin: 40%;
 }
 @media screen and (max-width: 46.5em)  {
 	.big-box h2
