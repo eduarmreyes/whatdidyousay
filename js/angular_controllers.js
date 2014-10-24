@@ -33,10 +33,24 @@ var aStatBoxes = [
 		url: "#"
 	}
 ];
+var aQuestions = [
+	{
+		question: "What is the first person of the pronound",
+		answeres: {
+			first: "I",
+			second: "You"
+		},
+		correctAnswer: 1
+	}
+];
 (function() {
-	var app = angular.module('whatdidyousay', []);
+	var app = angular.module("whatdidyousay", []);
 
 	app.controller("StatBoxesCtrl", function() {
 		this.statBoxes = aStatBoxes;
+	});
+
+	app.controller("QuestionsCtrl", function() {
+		this.questions = aQuestions;
 	});
 })();
