@@ -23,12 +23,12 @@ h6,
 #first-child {
 	top:0;
 	left:0;
-	background-color: rgb(19, 18, 18);
+	background-color: #3E4056;
 }
 #second-child {
 	top:0;
 	left:50%;
-	background-color: #E6537D;
+	background-color: #3C8DBC;
 	color:black;
 }
 #third-child {
@@ -39,7 +39,7 @@ h6,
 #fourth-child {
 	top:50%;
 	left:50%;
-	background-color: #20B2AA;
+	background-color: #EF6934;
 	color:black;
 }
 .big-box {
@@ -59,18 +59,14 @@ h6,
 	text-transform: uppercase;
 	cursor:pointer;
 }
-.rounded {
-	border-radius: 100%;
-	border: #FFFCE3 3px solid;
-}
-.circular-animation {
-	-webkit-animation: enlargeShadows 1.5s ease-out infinite;
-	animation: enlargeShadows 1.5s ease-out infinite;
-	-webkit-animation-fill-mode: forwards;
-	animation-fill-mode: forwards;
-}
 .game {
 	font-size: 1.5em;
+}
+.link-to-dashboard{
+	background: #eee;
+	float: right;
+	position: relative;
+	z-index: 1;	
 }
 .question {
 	background: black;
@@ -90,7 +86,7 @@ h6,
 	margin: 0;
 }
 [class$=-option]:hover {
-	background: #20B2AA;
+	background: #EF6934;
 	-webkit-transition: background, 1s;
 		-moz-transition: background, 1s;
 			transition: background, 1s;
@@ -147,16 +143,16 @@ h6,
 	margin: 0 0 20px 0;
 }
 .modal-content-one {
-	background-color: rgb(19, 18, 18);
+	background-color: #3E4056;
 }
 .modal-content-two {
-	background-color:#E6537D;
+	background-color:#3C8DBC;
 }
 .modal-content-three {
 	background-color:#DC143C;
 }
 .modal-content-four {
-	background-color:#20B2AA;
+	background-color:#EF6934;
 }
 .close {
 	color:white ! important;

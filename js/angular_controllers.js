@@ -103,6 +103,28 @@ var aQuestions = [
 		correctAnswer: 1
 	},
 ];
+var aUsersStats = [
+	{
+		user_name: "Eduardo Mejía",
+		user_stat: 8
+	},
+	{
+		user_name: "Jacobito Clará",
+		user_stat: 8
+	},
+	{
+		user_name: "John Lenon",
+		user_stat: 8
+	},
+	{
+		user_name: "Carlos Aranzamendi",
+		user_stat: 8
+	},
+	{
+		user_name: "Dorothi Eldivar",
+		user_stat: 8
+	}
+];
 (function() {
 	var app = angular.module("whatdidyousay", []);
 
@@ -112,5 +134,9 @@ var aQuestions = [
 
 	app.controller("QuestionsCtrl", function() {
 		this.questions = aQuestions;
+	});
+
+	app.controller("UsersStatsCtrl", function() {
+		this.usersStats = aUsersStats;
 	});
 })();
