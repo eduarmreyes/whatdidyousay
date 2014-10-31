@@ -14,6 +14,17 @@ var left_side_width = 220; //Sidebar width in pixels
 $(function() {
 	"use strict";
 
+	// Enable notifications
+	if (typeof PNotify !== undefined) {
+		function fnNotify (sTitle, sText, sType) {
+			new PNotify({
+				title: sTitle,
+				text: sText,
+				type: sType
+			});
+		}
+	}
+
 //Enable sidebar toggle
 $("[data-toggle='offcanvas']").click(function(e) {
 	e.preventDefault();
