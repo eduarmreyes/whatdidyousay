@@ -26,10 +26,10 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body ng-controller="ApplicationCtrl">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-3 col-xs-3 link-to-dashboard"><a href="dashboard.html">Dashboard</a></div>
+				<div class="col-xs-3 col-xs-3 link-to-dashboard" ng-if="currentUser"><a href="dashboard.html">Dashboard</a></div>
 				<div class="col-xs-6 col-md-6 big-box" id="first-child">
 					<h2 data-toggle="modal" data-target="#modal1">Sign in</h2>
 					<!-- Modal -->
@@ -43,16 +43,13 @@
 								<div class="modal-body">
 									<div class="form-box" id="login-box">
 										<div class="header">Sign In</div>
-										<form action="../../index.html" method="post">
+										<form method="post" ng-controller="LoginCtrl" ng-submit="login(credentials)" novalidate>
 											<div class="body bg-gray">
 												<div class="form-group">
-													<input type="text" name="userid" class="form-control" placeholder="User ID">
+													<input type="text" name="userid" class="form-control" placeholder="User ID" ng-model="credentials.username">
 												</div>
 												<div class="form-group">
-													<input type="password" name="password" class="form-control" placeholder="Password">
-												</div>          
-												<div class="form-group">
-													<input type="checkbox" name="remember_me"> Remember me
+													<input type="password" name="password" class="form-control" placeholder="Password" ng-model="credentials.password">
 												</div>
 											</div>
 											<div class="footer">
@@ -77,10 +74,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-6 big-box" id="second-child" ng-controller="QuestionsCtrl as aQuestions">
-					<h2 data-toggle="modal" data-target="#Q1">Play the game</h2>
+				<div class="col-xs-6 col-md-6 big-box" id="second-child" ng-controller="QuestionsCtrl">
+					<h2 data-toggle="modal" data-target="#Q0">Play the game</h2>
 					<!-- Questions -->
-					<div class="modal fade" id="{{question.idElement}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" ng-repeat="question in aQuestions.questions">
+					<div class="modal fade" id="{{question.idElement}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" ng-repeat="question in questions">
 						<div class="modal-dialog">
 							<div class="modal-content modal-content-two">
 								<div class="modal-body modal-body-full-height">
