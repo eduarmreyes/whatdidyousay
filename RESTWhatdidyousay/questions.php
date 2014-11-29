@@ -7,6 +7,7 @@
 	} else {
 		$aValues = json_decode(file_get_contents("php://input"), true);
 		$action = $aValues["get"];
+		$action = $aValues["random"];
 	}
 	$aData = array();
 	$aData["records"] = array();
@@ -18,13 +19,16 @@
 		. " INNER JOIN wds_questions question ON (trivia.anqe_question_id = question.qes_id) "
 		. " WHERE trivia.anqe_active = TRUE";
 	if (is_null($action)) {
-		$aValues = ($_POST["trivia"]);
+		$aValues = $_POST["trivia"];
+		$aValues["question"] = str_replace("\"", "\"", str_replace("'", "\'", htmlentities($aValues["question"])));
 		$cmd = $db->command("select * from wds_questions q where q.qes_question = '{$aValues["question"]}'");
 		if ($db->NumRowsAffected()>0) {
 			array_push($aData["message_list"], "Question <div class='alert alert-warning'>{$aValues["question"]}</div> is already on our data base, please send another one.");
 		} else {
 			$aValues["first_answer_correct"] = (isset($aValues["first_answer_correct"])) ? 1 : 0;
 			$aValues["second_answer_correct"] = (isset($aValues["second_answer_correct"])) ? 1 : 0;
+			$aValues["second_answer"] = str_replace("\"", "\"", str_replace("'", "\'", htmlentities($aValues["second_answer"])));
+			$aValues["second_answer"] = str_replace("\"", "\"", str_replace("'", "\'", htmlentities($aValues["second_answer"])));
 
 			$sInsertFirstAnswer = "INSERT INTO wds_answer (ans_answer, ans_correct, ans_created_by, ans_updated_by, ans_created_at, ans_updated_at, ans_active) VALUES ('{$aValues["first_answer"]}', {$aValues["first_answer_correct"]}, 1, 1, now(), now(), 1)";
 			
@@ -57,6 +61,7 @@
 			}
 		}
 	} else {
+		$sSelectTrivia .= (isset($aValues["random"])) ? " ORDER BY RAND() LIMIT 10" : "";
 		$cmdGetTrivias = $db->command($sSelectTrivia);
 		$aData["records"] = $db->fetch_array($cmdGetTrivias);
 	}

@@ -13,7 +13,7 @@
 		if ($db->NumRowsAffected()>0) {
 			$aData = $db->fetch_array($cmd);
 		} else {
-			array_push($aData["message_list"], "Username {$sUsername} was not found on our DB.");
+			array_push($aData["message_list"], "Username {$sUsername} credentials are incorrect or it was not found on DB.");
 		}
 	} else {
 		array_push($aData["message_list"], "Please fill form so we can sign you in.");

@@ -11,6 +11,7 @@
 		<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 		<!-- Ionicons -->
 		<link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/pnotify/pnotify.custom.min.css" rel="stylesheet" type="text/css" />
 		<!-- Theme style -->
 		<link href="css/AdminLTE.css" rel="stylesheet" type="text/css" />
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -32,7 +33,7 @@
 				<div class="col-xs-3 col-xs-3 link-to-dashboard" ng-if="currentUser"><a href="dashboard.html">Dashboard</a></div>
 				<div class="col-xs-6 col-md-6 big-box" id="first-child">
 					<h2 data-toggle="modal" data-target="#modal1">Sign in</h2>
-					<!-- Modal -->
+					<!-- Modal Login -->
 					<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content modal-content-one">
@@ -74,8 +75,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-6 big-box" id="second-child" ng-controller="QuestionsCtrl">
-					<h2 data-toggle="modal" data-target="#Q0">Play the game</h2>
+				<div class="col-xs-6 col-md-6 big-box" id="second-child" ng-controller="GameCtrl">
+					<h2 data-toggle="modal" data-target="#Q0" ng-if="currentUser">Play the game</h2>
 					<!-- Questions -->
 					<div class="modal fade" id="{{question.idElement}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" ng-repeat="question in questions">
 						<div class="modal-dialog">
@@ -89,10 +90,10 @@
 												</div>
 											</div>
 											<div class="col-xs-6 col-md-6 options first-option">
-												<p class="text-center option-text" data-correct="{{question.answeres.first.correct}}" data-target="{{question.answeres.first.target}}" data-next="{{question.answeres.first.next}}"><span>{{question.answeres.first.text}}</span></p>
+												<p class="text-center option-text" data-correct="{{question.answeres.first.correct}}" data-target="{{question.answeres.first.target}}" data-next="{{question.answeres.first.next}}" ng-click="sendTrivia(question.answeres.first)"><span>{{question.answeres.first.text}}</span></p>
 											</div>
 											<div class="col-xs-6 col-md-6 options second-option">
-												<p class="text-center option-text" data-correct="{{question.answeres.second.correct}}" data-target="{{question.answeres.second.target}}" data-next="{{question.answeres.second.next}}"><span>{{question.answeres.second.text}}</span></p>
+												<p class="text-center option-text" data-correct="{{question.answeres.second.correct}}" data-target="{{question.answeres.second.target}}" data-next="{{question.answeres.second.next}}"  ng-click="sendTrivia(question.answeres.second)"><span>{{question.answeres.second.text}}</span></p>
 											</div>
 										</div>
 									</div>
@@ -133,14 +134,15 @@
 									<h4 class="modal-title" id="myModalLabel">About</h4>
 								</div>
 								<div class="modal-body">
-									<b>What did you say?</b> is a game created for fun and it's objective is to demonstrate the ability to create fun and nice games using only javascript and css
+									<p><b>What did you say?</b> is a game created for fun and it's objective is to demonstrate the ability to create fun and nice games using only javascript and css.</p>
+									<p>This games was inspired by an excellent game in Spanish named <a href="http://buscanigua.com/">Buscanigua</a> created by <a href="https://twitter.com/ro_puente">Rodrigo Puente @ro_puente</a>.</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-xs-6 col-md-6 big-box" id="fourth-child">
-					<h2 data-toggle="modal" data-target="#modal4">Leader's board</h2>
+					<h2 data-toggle="modal" data-target="#modal4" ng-if="currentUser">Leader's board</h2>
 					<!-- Modal -->
 					<div class="modal fade" id="modal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
@@ -179,7 +181,9 @@
 		<script src="js/bootstrap.min.js" type="text/javascript"></script>
 		<!-- Angular -->
 		<script src="js/angular.min.js" type="text/javascript"></script>
+		<script src="js/plugins/pnotify/pnotify.custom.min.js" type="text/javascript"></script>
 		<script src="js/angular_controllers.js" type="text/javascript"></script>
+		<script src="js/usefullFunctions.js" type="text/javascript"></script>
 		<!-- AdminLTE App -->
 		<script src="js/AdminLTE/app.js" type="text/javascript"></script>
 		<script>

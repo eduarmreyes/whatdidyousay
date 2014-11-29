@@ -36,23 +36,23 @@ var aStatBoxes = [
 var aUsersStats = [
 	{
 		user_name: "Eduardo Mejía",
-		user_stat: 8
+		user_stat: 15
 	},
 	{
 		user_name: "Jacobito Clará",
-		user_stat: 8
+		user_stat: 7
 	},
 	{
 		user_name: "John Lenon",
-		user_stat: 8
+		user_stat: 3
 	},
 	{
 		user_name: "Carlos Aranzamendi",
-		user_stat: 8
+		user_stat: 1
 	},
 	{
 		user_name: "Dorothi Eldivar",
-		user_stat: 8
+		user_stat: 0
 	}
 ];
 (function() {
@@ -60,12 +60,12 @@ var aUsersStats = [
 
 	// Constants
 	app.constant("AUTH_EVENTS", {
-	  loginSuccess: "auth-login-success",
-	  loginFailed: "auth-login-failed",
-	  logoutSuccess: "auth-logout-success",
-	  sessionTimeout: "auth-session-timeout",
-	  notAuthenticated: "auth-not-authenticated",
-	  notAuthorized: "auth-not-authorized"
+		loginSuccess: "auth-login-success",
+		loginFailed: "auth-login-failed",
+		logoutSuccess: "auth-logout-success",
+		sessionTimeout: "auth-session-timeout",
+		notAuthenticated: "auth-not-authenticated",
+		notAuthorized: "auth-not-authorized"
 	});
 
 	// Constants
@@ -85,12 +85,13 @@ var aUsersStats = [
 			return $http
 			.post("RESTWhatdidyousay/login.php", aData)
 			.then(function (res) {
-				Session.create(res.data.user_id, res.data.user_full_name, res.data.user_username);
+				Session.create(res.data[0].user_id, res.data[0].user_full_name, res.data[0].user_username);
 				return res.data;
 			});
 		};
 
 		authService.isAuthenticated = function () {
+			console.log(Session);
 			return !!Session.userUsername;
 		};
 
@@ -105,26 +106,27 @@ var aUsersStats = [
 	});
 
 	app.service("Session", function () {
-	  this.create = function (sessionId, userFullName, userUsername) {
-	    this.id = sessionId;
-	    this.userFullName = userFullName;
-	    this.userUsername = userUsername;
-	  };
-	  this.destroy = function () {
-	    this.id = null;
-	    this.userFullName = null;
-	    this.userUsername = null;
-	  };
-	  return this;
+		this.create = function (sessionId, userFullName, userUsername) {
+			this.id = sessionId;
+			this.userFullName = userFullName;
+			this.userUsername = userUsername;
+		};
+		this.destroy = function () {
+			this.id = null;
+			this.userFullName = null;
+			this.userUsername = null;
+		};
+		return this;
 	});
 
 	app.controller("StatBoxesCtrl", function() {
 		this.statBoxes = aStatBoxes;
 	});
 
-	app.controller("QuestionsCtrl", function($scope, $http) {
+	app.controller("GameCtrl", function($scope, $http, USER_ROLES, AuthService) {
 		var aData = {
-			get: "true"
+			get: "true",
+			random: "true"
 		};
 		var aQuestions = [];
 		$http
@@ -156,11 +158,26 @@ var aUsersStats = [
 					},
 					correctAnswer: iCorrectAnswer
 				});
-				debugger;
 			});
 		});
-		debugger;
 		$scope.questions = aQuestions;
+		// Scope functions
+		// fn to get those correct answered questions, :P
+		$scope.sendTrivia = function (aAnsweres) {
+			aAnsweres.user = $scope.currentUser
+			$http
+			.post("RESTWhatdidyousay/trivia.php", JSON.stringify(aAnsweres))
+			.then(function (res) {
+				var aJsonData = res.data;
+				if (aJsonData.message_list.length === 0) {
+					$scope.setCurrentUser(aJsonData.records);
+				} else{
+					angular.forEach(aJsonData.message_list, function (value, i) {
+						fnNotify("Error", value, "error", "fa fa-warning");
+					});
+				}
+			});
+		}
 	});
 
 	app.controller("UsersStatsCtrl", function() {
@@ -186,11 +203,17 @@ var aUsersStats = [
 	app.controller("ApplicationCtrl", function ($scope, USER_ROLES, AuthService) {
 		$scope.currentUser = null;
 		$scope.userRoles = USER_ROLES;
+		$scope.isAuthenticated = AuthService.isAuthenticated;
 		$scope.isAuthorized = AuthService.isAuthorized;
 
 		$scope.setCurrentUser = function (user) {
-    		$scope.currentUser = user;
-  		};
+			console.log(user);
+			if (typeof user.message_list !== "undefined") {
+				fnNotify("Error", user.message_list, "error", "fa fa-warning");
+			} else{
+				$scope.currentUser = user[0];
+			}
+		};
 	});
 
 })();

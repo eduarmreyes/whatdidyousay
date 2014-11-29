@@ -11,8 +11,7 @@
 			array_push($aData["message_list"], "Username {$aValues["userid"]} is already taken, please select another.");
 		} else {
 			$aValues["password"] = md5("WhatdidyousayUser " . $aValues["password"]);
-			$cmdInsert = $db->command("INSERT INTO wds_users (user_full_name, user_username, user_password, user_is_online, user_created_at, user_updated_at, user_active) VALUES  ('{$aValues["name"]}', '{$aValues["userid"]}', 0, '{$aValues["password"]}', now(), now(), 1)");
-
+			$cmdInsert = $db->command("INSERT INTO wds_users (user_full_name, user_username, user_password, user_is_online, user_created_at, user_updated_at, user_active) VALUES  ('{$aValues["name"]}', '{$aValues["userid"]}', '{$aValues["password"]}', 0, now(), now(), 1)");
 			if ($db->NumRowsAffected() > 0) {
 				$aData["success"] = "User {$aValues["userid"]} created successfully";
 			} else {
