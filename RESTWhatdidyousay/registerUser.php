@@ -5,7 +5,9 @@
 	$aData = array();
 	$aData["message_list"] = array();
 	if ($aValues["userid"] !== "") {
-		$cmd = $db->command("select * from wds_users u where u.user_username = {$aValues["userid"]}");
+		$cmd = $db->command("select * from wds_users u where u.user_username = '{$aValues["userid"]}'");
+		var_dump($cmd);
+		exit();
 		if ($db->NumRowsAffected()>0) {
 			array_push($aData["message_list"], "Username {$aValues["userid"]} is already taken, please select another.");
 		} else {

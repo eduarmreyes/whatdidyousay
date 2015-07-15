@@ -24,7 +24,7 @@
 
 		<div class="form-box" id="login-box">
 			<div class="header">Register New Membership</div>
-			<form action="index.html" method="post">
+			<form action="RESTWhatdidyousay/registerUser.php" method="post">
 				<div class="body bg-gray">
 					<div class="form-group">
 						<input type="text" name="user[name]" class="form-control" placeholder="Full name"/>
@@ -40,7 +40,7 @@
 					</div>
 				</div>
 				<div class="footer">                    
-					<button type="button" id="sign-me-up" class="btn bg-olive btn-block">Sign me up</button>
+					<button type="submit" id="sign-me-up" class="btn bg-olive btn-block">Sign me up</button>
 					<a href="index.html" class="text-center">I already have a membership</a>
 				</div>
 			</form>
@@ -64,7 +64,7 @@
 		<script>
 			$(document).on("ready", fnLogin());
 			function fnLogin () {
-				$("#sign-me-up").on("click", function() {
+				$("form").on("submit", function(e) {
 					$.ajax({
 						data: $("form").serialize(),
 						dataType: "json",
@@ -94,8 +94,9 @@
 							}
 						},
 						type: "post",
-						url: "http://uees.comuf.com/RESTWhatdidyousay/registerUser.php"
-					})
+						url: "RESTWhatdidyousay/registerUser.php"
+					});
+					e.preventDefault();
 				});
 			}
 		</script>
