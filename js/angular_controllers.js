@@ -56,7 +56,7 @@ var aUsersStats = [
 	}
 ];
 (function() {
-	var app = angular.module("whatdidyousay", []);
+	var app = angular.module("appDashboard", []);
 
 	// Constants
 	app.constant("AUTH_EVENTS", {
@@ -79,13 +79,16 @@ var aUsersStats = [
 	// AuthService factory
 	app.factory("AuthService", function ($http, Session) {
 		var authService = {};
+		var oUser = {};
 
 		authService.login = function (credentials) {
 			var aData = JSON.stringify(credentials);
 			return $http
 			.post("RESTWhatdidyousay/login.php", aData)
 			.then(function (res) {
-				Session.create(res.data[0].user_id, res.data[0].user_full_name, res.data[0].user_username);
+				if (typeof res.data.message_list === undefined) {
+					Session.create(res.data[0].user_id, res.data[0].user_full_name, res.data[0].user_username);
+				}
 				return res.data;
 			});
 		};
@@ -101,6 +104,14 @@ var aUsersStats = [
 			}
 			return (authService.isAuthenticated());
 		};
+
+		authService.getUser = function() {
+			return oUser;
+		}
+
+		authService.setUser = function(user) {
+			return oUser = user;
+		}
 
 		return authService;
 	});
@@ -119,11 +130,11 @@ var aUsersStats = [
 		return this;
 	});
 
-	app.controller("StatBoxesCtrl", function() {
+	app.controller("StatBoxesController", function() {
 		this.statBoxes = aStatBoxes;
 	});
 
-	app.controller("GameCtrl", function($scope, $http, USER_ROLES, AuthService) {
+	app.controller("GameController", function($scope, $http, USER_ROLES, AuthService) {
 		var aData = {
 			get: "true",
 			random: "true"
@@ -145,12 +156,14 @@ var aUsersStats = [
 					answeres: {
 						first: {
 							text: value.answer_1,
+							img_src: value.answer_img_src_1,
 							correct: value.answer_1_correct,
 							target: "#Q" + i,
 							next: "#Q" + iNext
 						},
 						second: {
 							text: value.answer_2,
+							img_src: value.answer_img_src_2,
 							correct: value.answer_2_correct,
 							target: "#Q" + i,
 							next: "#Q" + iNext
@@ -164,13 +177,17 @@ var aUsersStats = [
 		// Scope functions
 		// fn to get those correct answered questions, :P
 		$scope.sendTrivia = function (aAnsweres) {
-			aAnsweres.user = $scope.currentUser
+			aAnsweres.user = $scope.currentUser;
+			console.log(aAnsweres);
 			$http
 			.post("RESTWhatdidyousay/trivia.php", JSON.stringify(aAnsweres))
 			.then(function (res) {
 				var aJsonData = res.data;
 				if (aJsonData.message_list.length === 0) {
-					$scope.setCurrentUser(aJsonData.records);
+					if (!!aJsonData.records.length) {
+						$scope.setCurrentUser(aJsonData.records);
+						AuthService.setUser(aJsonData.records);
+					}
 				} else{
 					angular.forEach(aJsonData.message_list, function (value, i) {
 						fnNotify("Error", value, "error", "fa fa-warning");
@@ -180,39 +197,39 @@ var aUsersStats = [
 		}
 	});
 
-	app.controller("UsersStatsCtrl", function() {
+	app.controller("UsersStatsController", function() {
 		this.usersStats = aUsersStats;
 	});
 
-	app.controller("LoginCtrl", function($scope, $rootScope, AUTH_EVENTS, AuthService) {
+	app.controller("LoginController", function($scope, $rootScope, AUTH_EVENTS, AuthService) {
 		$scope.credentials = {
 			username: "",
 			password: ""
 		};
 		$scope.login = function(credentials) {
 			AuthService.login(credentials).then(function(user) {
-				$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-				$scope.setCurrentUser(user);
-				$("#modal1").modal("hide");
+				if (typeof user.message_list !== undefined) {
+					$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+					AuthService.setUser(user);
+					$scope.setCurrentUser(user);
+					$("#modal1").modal("hide");
+				} else{
+					fnNotify("Error", user.message_list, "error", "fa fa-warning");
+				}
 			}, function() {
 				$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
 			});
 		}
 	});
 
-	app.controller("ApplicationCtrl", function ($scope, USER_ROLES, AuthService) {
+	app.controller("ApplicationController", function ($scope, USER_ROLES, AuthService) {
 		$scope.currentUser = null;
 		$scope.userRoles = USER_ROLES;
 		$scope.isAuthenticated = AuthService.isAuthenticated;
 		$scope.isAuthorized = AuthService.isAuthorized;
 
 		$scope.setCurrentUser = function (user) {
-			console.log(user);
-			if (typeof user.message_list !== "undefined") {
-				fnNotify("Error", user.message_list, "error", "fa fa-warning");
-			} else{
-				$scope.currentUser = user[0];
-			}
+			$scope.currentUser = user[0];
 		};
 	});
 

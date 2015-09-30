@@ -12,7 +12,7 @@
 	$aData = array();
 	$aData["records"] = array();
 	$aData["message_list"] = array();
-	$sSelectTrivia = "SELECT question.qes_question, first_answer.ans_answer AS 'answer_1', first_answer.ans_correct AS 'answer_1_correct', second_answer.ans_answer AS 'answer_2', second_answer.ans_correct AS 'answer_2_correct', question.qes_active "
+	$sSelectTrivia = "SELECT question.qes_question, first_answer.ans_answer AS 'answer_1', first_answer.ans_img_src AS 'answer_img_src_1', first_answer.ans_correct AS 'answer_1_correct', second_answer.ans_answer AS 'answer_2', second_answer.ans_img_src AS 'answer_img_src_2', second_answer.ans_correct AS 'answer_2_correct', question.qes_active "
 		. " FROM wds_answers_question trivia "
 		. " INNER JOIN wds_answer first_answer ON (trivia.anqe_first_answer_id = first_answer.ans_id) "
 		. " INNER JOIN wds_answer second_answer ON (trivia.anqe_second_answerd_id = second_answer.ans_id) "
@@ -30,12 +30,12 @@
 			$aValues["second_answer"] = str_replace("\"", "\"", str_replace("'", "\'", htmlentities($aValues["second_answer"])));
 			$aValues["second_answer"] = str_replace("\"", "\"", str_replace("'", "\'", htmlentities($aValues["second_answer"])));
 
-			$sInsertFirstAnswer = "INSERT INTO wds_answer (ans_answer, ans_correct, ans_created_by, ans_updated_by, ans_created_at, ans_updated_at, ans_active) VALUES ('{$aValues["first_answer"]}', {$aValues["first_answer_correct"]}, 1, 1, now(), now(), 1)";
-			
+			$sInsertFirstAnswer = "INSERT INTO wds_answer (ans_answer, ans_correct, ans_img_src, ans_created_by, ans_updated_by, ans_created_at, ans_updated_at, ans_active) VALUES ('{$aValues["first_answer"]}', {$aValues["first_answer_correct"]}, '{$aValues["first_answer_src"]}', 1, 1, now(), now(), 1)";
+
 			$cmdInsertFirstAnswers = $db->command($sInsertFirstAnswer, true);
 			$iFirstAnswerID = $db->GetInsertedID();
 
-			$sInsertSecondAnswer = "INSERT INTO wds_answer (ans_answer, ans_correct, ans_created_by, ans_updated_by, ans_created_at, ans_updated_at, ans_active) VALUES ('{$aValues["second_answer"]}', {$aValues["second_answer_correct"]}, 1, 1, now(), now(), 1)";
+			$sInsertSecondAnswer = "INSERT INTO wds_answer (ans_answer, ans_correct, ans_img_src, ans_created_by, ans_updated_by, ans_created_at, ans_updated_at, ans_active) VALUES ('{$aValues["second_answer"]}', {$aValues["second_answer_correct"]}, '{$aValues["second_answer_src"]}', 1, 1, now(), now(), 1)";
 			
 
 			$cmdInsertSecondAnswers = $db->command($sInsertSecondAnswer, true);

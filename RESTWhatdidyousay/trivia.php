@@ -10,6 +10,12 @@
 		$sTriviaText = $aValues["text"];
 		$iCorrect = (bool) $aValues["correct"];
 		$aUser = $aValues["user"];
+		if ($aValues["target"] === "#Q0") {
+			$sResetUser = "UPDATE wds_users SET user_game_score = 0 "
+				. " WHERE user_id = {$aUser["user_id"]}";
+			$cmd = $db->command($sResetUser);		
+			$aUser["user_game_score"] = 0;
+		}
 		if ($iCorrect) {
 			$aUser["user_lifetime_score"] = $aUser["user_lifetime_score"] + 1;
 			$aUser["user_game_score"] = $aUser["user_game_score"] + 1;

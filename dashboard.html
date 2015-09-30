@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="whatdidyousay">
+<html ng-app="appDashboard">
 <head>
 	<meta charset="UTF-8">
 	<title>What did you say? | Dashboard</title>
@@ -184,7 +184,7 @@
 					<section class="content">
 
 						<!-- Small boxes (Stat box) -->
-						<div class="row" ng-controller="StatBoxesCtrl as stats">
+						<div class="row" ng-controller="StatBoxesController as stats">
 							<div class="col-lg-3 col-xs-6" ng-repeat="stat in stats.statBoxes">
 								<!-- small box -->
 								<div class="small-box bg-{{stat.bg_color}}">

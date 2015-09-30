@@ -11,8 +11,18 @@
 		public function connectmysql()
 		{
 			if(!isset($this->connection)){
-				$this->connection = (mysql_connect("localhost","root","")) or die(mysql_error());
-				mysql_select_db("db_whatdidyousay",$this->connection) or die(mysql_error());
+				$mysql_host = "mysql10.000webhost.com";
+				$mysql_database = "a3265352_whatdus";
+				$mysql_user = "a3265352_whatdus";
+				$mysql_password = "WhatDidYouSay1";
+				if ($_SERVER["SERVER_NAME"] === "localhost" || $_SERVER["SERVER_NAME"] === "127.0.0.1") {
+					$mysql_host = "localhost";
+					$mysql_database = "db_whatdidyousay";
+					$mysql_user = "ISEMejia";
+					$mysql_password = "ISEMejia";
+				}
+				$this->connection = (mysql_connect("$mysql_host","$mysql_user","$mysql_password")) or die(mysql_error());
+				mysql_select_db("$mysql_database",$this->connection) or die(mysql_error());
 			}
 		}
 		public function command($consulta, $insert = null){

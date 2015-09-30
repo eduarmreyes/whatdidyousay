@@ -145,6 +145,16 @@ fix_sidebar();
  	radioClass: 'iradio_minimal'
  });
 });
+/*
+ * We are gonna initialize all file upload input
+ * fileupload plugin in.
+ * You can find the documentation at https://github.com/kartik-v/bootstrap-fileinput
+ */
+ $("input[type='file']").fileinput({
+ 	uploadUrl: "http://localhost/whatdidyousay/RESTWhatdidyousay/upload.php", // server upload action
+ 	allowedFileTypes: ['image']
+ });
+
 function fix_sidebar() {
 		//Make sure the body tag has the .fixed class
 		if (!$("body").hasClass("fixed")) {
@@ -836,10 +846,10 @@ i = function(a) {
  			} else {
  				a.height = "auto" == a.height ? b.parent().height() : a.height;
  				n = f("<div></div>").addClass(a.wrapperClass).css({position: "relative",
- 				                                                  overflow: "hidden", width: a.width, height: a.height});
+ 					overflow: "hidden", width: a.width, height: a.height});
  				b.css({overflow: "hidden", width: a.width, height: a.height});
  				var g = f("<div></div>").addClass(a.railClass).css({width: a.size, height: "100%", position: "absolute", top: 0, display: a.alwaysVisible && a.railVisible ? "block" : "none", "border-radius": a.railBorderRadius, background: a.railColor, opacity: a.railOpacity, zIndex: 90}), c = f("<div></div>").addClass(a.barClass).css({background: a.color, width: a.size, position: "absolute", top: 0, opacity: a.opacity, display: a.alwaysVisible ?
- 				                                                                                                                                                                                                                                                                                                                                 "block" : "none", "border-radius": a.borderRadius, BorderRadius: a.borderRadius, MozBorderRadius: a.borderRadius, WebkitBorderRadius: a.borderRadius, zIndex: 99}), q = "right" == a.position ? {right: a.distance} : {left: a.distance};
+ 					"block" : "none", "border-radius": a.borderRadius, BorderRadius: a.borderRadius, MozBorderRadius: a.borderRadius, WebkitBorderRadius: a.borderRadius, zIndex: 99}), q = "right" == a.position ? {right: a.distance} : {left: a.distance};
  				g.css(q);
  				c.css(q);
  				b.wrap(n);
@@ -923,7 +933,7 @@ jQuery.fn.extend({slimscroll: jQuery.fn.slimScroll})
 			var c = a[0], e = a.parent(), f = b == l, A = b == m, B = b == s, K = A ? w : f ? E : "enabled", p = k(a, K + x(c[n])), N = k(a, b + x(c[n]));
 			if (!0 !== c[b]) {
 				if (!d &&
-				    b == l && c[n] == u && c.name) {
+					b == l && c[n] == u && c.name) {
 					var C = a.closest("form"), r = 'input[name="' + c.name + '"]', r = C.length ? C.find(r) : h(r);
 				r.each(function() {
 					this !== c && h(this).data(q) && t(h(this), b)
